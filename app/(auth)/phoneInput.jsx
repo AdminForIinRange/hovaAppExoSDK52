@@ -44,7 +44,7 @@ const PhoneInput = () => {
   const inputRefs = useRef([...Array(4)].map(() => useRef(null)));
   const [errorCode, setErrorCode] = useState("");
   const [isSubmitting, setSubmitting] = useState(false);
-  const [modalRejionVisible, setModalPhoneRejionVisible] = useState(false);
+  const [modalRejionVisible, setModalRejionVisible] = useState(false);
   const [modalOPTVisible, setModalOPTVisible] = useState(false);
 
   const slideAnim = useRef(new Animated.Value(-100)).current;
@@ -182,7 +182,7 @@ const PhoneInput = () => {
 
           <View className="mt-20 flex-row space-x-2 ">
             <Pressable
-              onPress={() => setModalPhoneRejionVisible(true)}
+              onPress={() => setModalRejionVisible(true)}
               className=" flex-row items-center space-x-1 rounded-lg border text-[18px]  border-gray-200 px-2 py-3"
             >
               <Text className=" text-[18px]  font-semibold placeholder:text-Primary ">
@@ -213,7 +213,7 @@ const PhoneInput = () => {
             animationType="slide"
             transparent={true}
             visible={modalRejionVisible}
-            onRequestClose={() => setModalPhoneRejionVisible(false)}
+            onRequestClose={() => setModalRejionVisible(false)}
           >
             <View className="flex-1 ">
               <View className="mt-auto h-3/4 rounded-t-3xl bg-white   border-gray-300 border-2 p-4">
@@ -222,7 +222,7 @@ const PhoneInput = () => {
                     Select Country
                   </Text>
                   <Pressable
-                    onPress={() => setModalPhoneRejionVisible(false)}
+                    onPress={() => setModalRejionVisible(false)}
                     className="rounded-full p-2"
                   >
                     <Text className="text-secondary">Close</Text>
@@ -237,7 +237,7 @@ const PhoneInput = () => {
                     <Pressable
                       onPress={() => {
                         setSelectedCountry(item);
-                        setModalPhoneRejionVisible(false);
+                        setModalRejionVisible(false);
                       }}
                       className="flex-row items-center space-x-4 border-b border-gray-100 py-4"
                     >
