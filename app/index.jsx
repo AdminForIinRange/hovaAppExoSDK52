@@ -65,8 +65,8 @@ const Welcome = () => {
       >
         <View className="flex-1">
           <View className="mt-auto h-2/4 rounded-t-[40px] bg-white">
-            <View className="flex-row mt-[45px] items-center justify-center">
-              <View>
+            <View className="flex-col mt-[45px] items-center justify-center">
+             
                 <Text className="text-[36px] font-psemibold text-[#414141] text-center">
                   Welcome to Hova
                 </Text>
@@ -92,7 +92,7 @@ const Welcome = () => {
                   }}
                   containerStyles="w-full mt-4"
                   textColor={"black"}
-                  buttonBackgroundColor={"red"}
+                  buttonBackgroundColor={"#F7F7F7"}
                 />
 
                 <Link
@@ -102,7 +102,7 @@ const Welcome = () => {
                 >
                   Terms of Use
                 </Link>
-              </View>
+              
             </View>
           </View>
         </View>

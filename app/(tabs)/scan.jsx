@@ -1,12 +1,20 @@
 import { CameraView, useCameraPermissions } from "expo-camera";
-import { useState } from "react";
-import { Button, Pressable, StyleSheet, Text, View,   Modal, } from "react-native";
+import { useEffect, useState } from "react";
+import { Button, Pressable, StyleSheet, Text, View, Modal } from "react-native";
 import "./handScan.css";
+import { CustomButton, Loader } from "../../components";
 
 export default function Scan() {
   const [permission, requestPermission] = useCameraPermissions();
   const [scannedData, setScannedData] = useState(null);
   const [modalScanedVisible, setModalScanedVisible] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+
+  useEffect(() => {
+    if (isSending) {
+      setTimeout(() => setIsSending(false), 5000);
+    }
+  }, [modalScanedVisible]);
 
   if (!permission) {
     return <View />; // Camera permissions loading
@@ -25,13 +33,20 @@ export default function Scan() {
 
   // Callback when QR code is scanned
   function handleBarcodeScanned({ type, data }) {
+    
     setScannedData(data); // Save the scanned QR code data
     console.log(`QR code scanned! Type: ${type}, Data: ${data}`);
+
+    if (scannedData === "TestingForTerminal1") {
+      setModalScanedVisible(true);
+      setIsSending(true);
+    }
   }
 
   return (
     <>
       <View style={styles.container}>
+    
         <CameraView
           style={styles.camera}
           barcodeScannerSettings={{
@@ -50,31 +65,38 @@ export default function Scan() {
           </View>
         )}
 
-        {scannedData === 1 && (
-          <>
-            <View className="flex-row bg-white w-full h-full justify-center items-center z-10">
-              <View className="flex-row justify-center items-start w-full px-4 my-4">
-                <View className="w-full h-[200px] rounded-xl p-4">
-                  <Text className="text-[38px] font-semibold text-black text-center">
-                    Great, please scan your hand on the device
-                    {/* User's session data will be sent to the Appwrite terminal (e.g., "Terminal 1" or whatever the terminal code scanned was). The terminal will constantly check for session data, and if it receives it, it will send it back to Appwrite, locate the user, and add it like ...users, palm: id or something */}
-                  </Text>
-                  <Text className="text-[108px] font-semibold text-black text-center">
-                    🫳
-                  </Text>
-                </View>
+
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalScanedVisible}
+          onRequestClose={() => setModalScanedVisible(false)}
+        >
+
+          <View className="flex-1">
+            <View className="mt-auto h-[90%] rounded-t-[40px] bg-white">
+              <View className="flex-col mt-[45px] items-center justify-center p-[10px] ">
+                <Text className="text-[36px]   font-psemibold text-[#414141] text-center">
+                 {isSending ? "Sending" : "Scan your hand on the device"}
+                </Text>
+                <Text className="mt-2 text-[20px] font-pregular text-[#6F6F6F] text-center"></Text>
+             
+
+                <CustomButton
+                  title="Back"
+                  handlePress={() => {
+                    setScannedData(null);
+                    setModalScanedVisible(false);
+                  }}
+                  containerStyles="w-full mt-4"
+                  textColor={"white"}
+                  buttonBackgroundColor={"#0162F1"}
+                />
               </View>
             </View>
-
-            <View className="w-full h-[200px] rounded-xl p-4">
-              <Pressable onPress={() => setScannedData(null)}>
-                <Text className="text-[38px] font-semibold text-black text-center">
-                  Back
-                </Text>
-              </Pressable>
-            </View>
-          </>
-        )}
+          </View>
+        </Modal>
       </View>
     </>
   );
