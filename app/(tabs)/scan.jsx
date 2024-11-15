@@ -1,36 +1,62 @@
-import { useState, useEffect } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  Alert,
-  FlatList,
-  Image,
-  RefreshControl,
-  Dimensions,
-  ScrollView,
-  Text,
-  View,
-} from "react-native";
+import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
+import { useState } from 'react';
+import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import { icons } from "../../constants";
+export default function App() {
+  const [facing, setFacing] = useState('back');
+  const [permission, requestPermission] = useCameraPermissions();
 
-import { images } from "../../constants";
-// import useAppwrite from "../../lib/useAppwrite";
-// import { getAllPosts, getLatestPosts } from "../../lib/appwrite";
+  if (!permission) {
+    return <View />; // Camera permissions loading
+  }
 
-// import { EmptyState, SearchInput, Trending, VideoCard } from "../../components";
-// import { useGlobalContext } from "../../context/GlobalProvider";
+  if (!permission.granted) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.message}>We need your permission to show the camera</Text>
+        <Button onPress={requestPermission} title="Grant Permission" />
+      </View>
+    );
+  }
 
-const Scan = () => {
+  function toggleCameraFacing() {
+    setFacing(current => (current === 'back' ? 'front' : 'back'));
+  }
+
   return (
-    <SafeAreaView className="bg-white h-full">
-      <ScrollView>
-        <Text>
-        Cam function, but a lower version, something that fits in with react-native-screens@3.29.0 or something
-        </Text>
-      
-      </ScrollView>
-    </SafeAreaView>
+    <View style={styles.container}>
+      <CameraView style={styles.camera} facing={facing}>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
+            <Text style={styles.text}>Flip Camera</Text>
+          </TouchableOpacity>
+        </View>
+      </CameraView>
+    </View>
   );
-};
+}
 
-export default Scan;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  camera: {
+    flex: 1,
+  },
+  buttonContainer: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    margin: 64,
+  },
+  button: {
+    flex: 1,
+    alignSelf: 'flex-end',
+    alignItems: 'center',
+  },
+  text: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+});
