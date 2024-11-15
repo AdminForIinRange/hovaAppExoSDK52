@@ -12,7 +12,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "scheme": "hovaSDK52",
+    "scheme": "hovaAppExoSDK52",
     "ios": {
       "supportsTablet": true
     },
@@ -27,7 +27,16 @@
       "bundler": "metro"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+[
+  "expo-camera",
+  {
+    "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
+    "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
+    "recordAudioAndroid": true
+  }
+]
+     
     ]
   }
 }
