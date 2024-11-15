@@ -10,11 +10,11 @@ export default function Scan() {
   const [modalScanedVisible, setModalScanedVisible] = useState(false);
   const [isSending, setIsSending] = useState(false);
 
-  useEffect(() => {
-    if (isSending) {
-      setTimeout(() => setIsSending(false), 5000);
-    }
-  }, [modalScanedVisible]);
+  // useEffect(() => {
+  //   if (isSending) {
+  //     setTimeout(() => setIsSending(false), 5000);
+  //   }
+  // }, [modalScanedVisible]);
 
   if (!permission) {
     return <View />; // Camera permissions loading
@@ -39,7 +39,7 @@ export default function Scan() {
 
     if (scannedData === "TestingForTerminal1") {
       setModalScanedVisible(true);
-      setIsSending(true);
+      // setIsSending(true);
     }
   }
 
@@ -78,7 +78,8 @@ export default function Scan() {
             <View className="mt-auto h-[90%] rounded-t-[40px] bg-white">
               <View className="flex-col mt-[45px] items-center justify-center p-[10px] ">
                 <Text className="text-[36px]   font-psemibold text-[#414141] text-center">
-                 {isSending ? "Sending" : "Scan your hand on the device"}
+                 {/* {isSending ? "Sending" : "Scan your hand on the device"} */}
+                 Scan your hand on the device
                 </Text>
                 <Text className="mt-2 text-[20px] font-pregular text-[#6F6F6F] text-center"></Text>
              
